@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script>
+        $(function (){
+          $.ajax({
+              url:"get_list",
+              type:"get",
+              success:function (data){
+                  $.each(data,function (index,u){
+                      $("#tab").append(
+                          '<tr>'+
+                              '<td>'+u.uid+'</td>'+
+                              '<td>'+u.uname+'</td>'+
+                              '<td>'+u.age+'</td>'+
+                              '<td>'+u.tel+'</td>'+
+                          '</tr>'
+                      )
+                  })
+              }
+          })
+
+            $("#save").on('click',function (){
+                var param=$("#f1").serialize();
+                $.ajax({
+                    url:'add',
+                    type: 'post',
+                    data:param,
+                    success:function (data){
+                        if(data.code=200){
+                            location.reload();
+                            $("#tr").after(
+                                '<tr>'+
+                                '<td>'+u.uid+'</td>'+
+                                '<td>'+u.uname+'</td>'+
+                                '<td>'+u.age+'</td>'+
+                                '<td>'+u.tel+'</td>'+
+                                '</tr>'
+                            )
+                        }else {
+                            alert("添加失败");
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <form id="f1">
+        <table id="tab" class="table table-hover table-responsive table-bordered">
+            <tr id="tr">
+                <th>编号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>电话</th>
+            </tr>
+        </table>
+
+        <h4>添加用户</h4>
+        姓名：<input type="text" name="name">
+        年龄：<input type="text" name="age">
+        电话：<input type="text" name="tel">
+        <input value="添加" type="button" id="save">
+    </form>
+</body>
+</html>
